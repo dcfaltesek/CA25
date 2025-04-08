@@ -4,7 +4,7 @@ library(ggplot2)
 library(dplyr)
 library(nycflights23)
 
-#we need to start by getting some data to work with, a good place to start is with flights
+#we need to start by getting some data to work with, a good place to start is with flights, yep
 flights
 
 #because object permanence is overrated, lets put that in our environment
