@@ -107,15 +107,5 @@ G+scale_color_distiller(palette = "Greens")+theme(plot.background = element_rect
                                   vjust = 1,                     # Vertical adjustment
                                   angle = +10))
 
-#last but not least, let's just use a library eh?
-library(tvthemes)
-#way back to basics
-#the basic plot but done in parks and rec
-G+theme_parksAndRec()
 
-#broolyn
-G+scale_color_brooklyn99(type=c("continuous"))+theme_brooklyn99()
-
-#that should get you going 
-#the next set of things to work with are facets, other Geoms, and discrete
 
