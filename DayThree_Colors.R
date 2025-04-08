@@ -74,7 +74,7 @@ G+scale_color_distiller(palette = "Greens")+theme(plot.background = element_rect
 #now lets add all the features
 G+scale_color_distiller(palette = "Greens")+theme(plot.background = element_rect(fill = "lightpink"))+
   theme(panel.background = element_rect(fill = "#67c9ff"))+
-  ggtitle("Wow what a cool graphic", subtitle = "An exploration of Colour!", caption = "for my boring old class" )
+  ggtitle("Wow what a cool graphic", subtitle = "An exploration of Colour!" )
 
 #or using base R
 G+scale_color_distiller(palette = "Greens")+theme(plot.background = element_rect(fill = "lightpink"))+
