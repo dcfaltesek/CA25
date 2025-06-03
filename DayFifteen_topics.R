@@ -93,13 +93,13 @@ ap_wide %>%
 #import with a different name...
 
 #first we will just combined the lyric lines back into a single object
-songsB<-data %>% 
-  group_by(track_name) %>% 
-  select(c(album_name,track_name,song_lyric))
+songsB<-music %>% 
+  group_by(name) %>% 
+  select(c(album,name,lyrics))
 
 #this is quanteda code that we are using as a loader
 #NEW SKILL - CALLING FUNCTIONS FRMO AN UNATTACHED PACKAGE
-song_corpus<-quanteda::corpus(songsB$song_lyric, docvars = data.frame(song=songsB$track_name, album=songsB$album_name))
+song_corpus<-quanteda::corpus(songsB$lyrics, docvars = data.frame(song=songsB$name, album=songsB$album))
 
 
 #now we can go ahead and call the object, read the results carefully
@@ -153,37 +153,14 @@ tm_wide<-tm_documents %>%
               names_from = topic,
               values_from = c(gamma))
 
-#and now that we have done the hard part, here is where we go big
-#now we need to back-connect our data, so we are going to do some stuff here with STRINGR
-#if you get gud with regex, good job
-tm_songs<-tm_wide %>% 
-  #there is a ton of stuff happening in this line
-  #it is a mutate, so it makes a new line
-  #the result is named what the reference column was in the original dataset
-  #this line is a pre-processor
-  mutate(six_id=as.double(str_replace_all(document, "text", ""))) %>% 
-  #this is the business end line of the cluster
-  inner_join(data.to.run.nn_six)
-View(tm_songs)
+#now to split that
+library(stringr)
+#get rid of those pesky texts
+id_vars<-str_remove_all(tm_wide$document, "text")
 
-#this next vector should be equal to the number of topics 
-A<-1:7
-#that is not quite graphable, so now this
-tm_processed<-tm_songs %>% 
-  #let's just drop the text stuff
-  pivot_longer(cols = -c(six_id,document, album_name, track_name, song_lyric))
+#add that back to the data
+with_docs<-data.frame(tm_wide, song_number=as.numeric(id_vars))
 
-#take a look, its really sort of ugly in long format but let's rock and roll
-View(tm_processed)
+#now you should find some way to connnect MUSIC to with_docs...
 
-#visual time
-#this is a version of a confusion matrix
-tm_processed %>% 
-  #drop low scores, use a high threshold here
-  filter(value > .95) %>% 
-  ggplot(aes(name,album_name,colour=artist))+geom_point()
 
-#this implementation of LDA did NOT perform well
-
-#and so we know
-terms(song_lda, k=7)
